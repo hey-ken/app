@@ -1,145 +1,185 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bielik – Lokalny Asystent AI</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f7f7f7;
-            color: #333;
-        }
-        header {
-            background-color: #00529B;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-        }
-        section {
-            padding: 40px 20px;
-            max-width: 1000px;
-            margin: auto;
-        }
-        h2 {
-            color: #00529B;
-        }
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .card {
-            background-color: white;
-            flex: 1 1 300px;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        footer {
-            background-color: #222;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-        }
-        a.button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #00529B;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-        a.button:hover {
-            background-color: #003f7f;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bielik AI - Lokalne GUI</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f7f7f7;
+        color: #333;
+    }
+    header {
+        background: #00529B;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+    header h1 {
+        margin: 0;
+    }
+    main {
+        display: flex;
+        flex-direction: column;
+        max-width: 900px;
+        margin: 20px auto;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .modes {
+        margin-bottom: 20px;
+    }
+    .modes button {
+        margin-right: 10px;
+        padding: 10px 20px;
+        border: none;
+        background: #00529B;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .modes button.active {
+        background: #003f7f;
+    }
+    #chat {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        height: 300px;
+        overflow-y: auto;
+        padding: 10px;
+        margin-bottom: 10px;
+        background: #fafafa;
+    }
+    .message {
+        margin-bottom: 10px;
+    }
+    .message.user {
+        text-align: right;
+    }
+    .message.ai {
+        text-align: left;
+        font-weight: bold;
+    }
+    #inputArea {
+        display: flex;
+    }
+    #userInput {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px 0 0 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+    #sendBtn {
+        padding: 10px 20px;
+        border: none;
+        background: #00529B;
+        color: white;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+    }
+    footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #666;
+    }
+</style>
 </head>
 <body>
-    <header>
-        <h1>Bielik – Twój Lokalny Asystent AI</h1>
-        <p>Offline. Prywatnie. Uniwersalnie.</p>
-    </header>
+<header>
+    <h1>Bielik AI - Lokalne GUI</h1>
+    <p>Status: <span id="status">Offline</span></p>
+</header>
+<main>
+    <div class="modes">
+        <button id="eduBtn" class="active">Edukacja</button>
+        <button id="docBtn">Dokumenty</button>
+        <button id="gameBtn">Gry</button>
+    </div>
 
-    <section>
-        <h2>Dlaczego Bielik?</h2>
-        <ul>
-            <li>Działa offline – niezależny od internetu</li>
-            <li>Prywatność – Twoje dane nigdy nie wychodzą z urządzenia</li>
-            <li>Uniwersalność – wiki, asystent głosowy, analiza grafiki i dokumentów</li>
-            <li>Prostota – dostęp przez Wi-Fi jak do routera, zero konfiguracji</li>
-            <li>Aktualizacje modułowe – nowe bazy wiedzy i modele w kilka kliknięć</li>
-        </ul>
-    </section>
+    <div id="chat"></div>
 
-    <section>
-        <h2>Segmenty klientów</h2>
-        <div class="cards">
-            <div class="card">
-                <h3>Szkoły i uczelnie</h3>
-                <p>Dostęp do wiedzy i narzędzi AI bez konieczności internetu.</p>
-            </div>
-            <div class="card">
-                <h3>Firmy i instytucje</h3>
-                <p>Prywatny asystent do analizy dokumentów i danych wewnętrznych.</p>
-            </div>
-            <div class="card">
-                <h3>Rodziny</h3>
-                <p>Edukacja dzieci, asystent głosowy w domu, prywatne środowisko do nauki.</p>
-            </div>
-            <div class="card">
-                <h3>Obszary bez internetu</h3>
-                <p>Wsparcie edukacyjne i rozwojowe w regionach o ograniczonej infrastrukturze.</p>
-            </div>
-            <div class="card">
-                <h3>Hobbyści i technicy</h3>
-                <p>Możliwość uruchamiania własnych modeli i tworzenia lokalnych intranetów.</p>
-            </div>
-            <div class="card">
-                <h3>Służby kryzysowe / NGO</h3>
-                <p>Źródło wiedzy i narzędzi w sytuacjach awaryjnych, gdy internet zawodzi.</p>
-            </div>
-        </div>
-    </section>
+    <div id="inputArea">
+        <input type="text" id="userInput" placeholder="Napisz coś...">
+        <button id="sendBtn">Wyślij</button>
+    </div>
+</main>
+<footer>
+    &copy; 2025 Bielik AI - Prototyp GUI
+</footer>
 
-    <section>
-        <h2>Oferta i ceny</h2>
-        <div class="cards">
-            <div class="card">
-                <h3>Wersja edukacyjna</h3>
-                <p>Target: szkoły, rodziny</p>
-                <p>Cena: 2000–3000 zł</p>
-            </div>
-            <div class="card">
-                <h3>Wersja biznesowa</h3>
-                <p>Target: firmy, instytucje</p>
-                <p>Cena: 5000–7000 zł</p>
-            </div>
-            <div class="card">
-                <h3>Wersja PRO</h3>
-                <p>Target: badania, duże przedsiębiorstwa, NGO w misjach</p>
-                <p>Cena: >12 000 zł</p>
-            </div>
-        </div>
-        <p style="margin-top:20px;">Opcjonalnie model subskrypcyjny: darmowe podstawowe aktualizacje, płatne pakiety wiedzy i specjalistyczne modele AI.</p>
-    </section>
+<script>
+let mode = "Edukacja";
 
-    <section>
-        <h2>Skontaktuj się z nami</h2>
-        <p>Chcesz przetestować Bielika lub dowiedzieć się więcej?</p>
-        <a href="mailto:kontakt@bielik.ai" class="button">Napisz do nas</a>
-    </section>
+const statusEl = document.getElementById('status');
+const chatEl = document.getElementById('chat');
+const userInput = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
 
-    <footer>
-        &copy; 2025 Bielik AI – Wszystkie prawa zastrzeżone
-    </footer>
+const eduBtn = document.getElementById('eduBtn');
+const docBtn = document.getElementById('docBtn');
+const gameBtn = document.getElementById('gameBtn');
+
+eduBtn.addEventListener('click', () => setMode('Edukacja', eduBtn));
+docBtn.addEventListener('click', () => setMode('Dokumenty', docBtn));
+gameBtn.addEventListener('click', () => setMode('Gry', gameBtn));
+
+function setMode(newMode, button) {
+    mode = newMode;
+    document.querySelectorAll('.modes button').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    addMessage('system', `Tryb zmieniony na ${mode}`);
+}
+
+function addMessage(sender, text) {
+    const msg = document.createElement('div');
+    msg.classList.add('message', sender);
+    msg.textContent = text;
+    chatEl.appendChild(msg);
+    chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function generateResponse(input) {
+    // Prosty lokalny mock AI
+    if(input.startsWith('/')) {
+        return `Rozpoznano komendę: ${input}`;
+    }
+    switch(mode) {
+        case 'Edukacja':
+            return `Bielik (Edukacja): Odpowiedź na "${input}"`;
+        case 'Dokumenty':
+            return `Bielik (Dokumenty): Analiza "${input}"`;
+        case 'Gry':
+            return `Bielik (Gry): Pomysł na zabawę dla "${input}"`;
+        default:
+            return `Bielik: "${input}"`;
+    }
+}
+
+sendBtn.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') sendMessage();
+});
+
+function sendMessage() {
+    const text = userInput.value.trim();
+    if(!text) return;
+    addMessage('user', text);
+    userInput.value = '';
+    // Symulacja odpowiedzi AI z lekkim opóźnieniem
+    setTimeout(() => {
+        const response = generateResponse(text);
+        addMessage('ai', response);
+    }, 500);
+}
+
+// Symulacja statusu online po 1s
+setTimeout(() => { statusEl.textContent = 'Online'; }, 1000);
+</script>
 </body>
 </html>
