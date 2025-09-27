@@ -3,183 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bielik AI - Lokalne GUI</title>
+<title>Bielik AI Hub - Demo</title>
 <style>
     body {
-        font-family: Arial, sans-serif;
         margin: 0;
+        font-family: Arial, sans-serif;
         background: #f7f7f7;
-        color: #333;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
     }
     header {
         background: #00529B;
         color: white;
-        padding: 20px;
-        text-align: center;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     header h1 {
         margin: 0;
+        font-size: 1.5em;
     }
     main {
         display: flex;
-        flex-direction: column;
-        max-width: 900px;
-        margin: 20px auto;
-        background: white;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        flex: 1;
+        overflow: hidden;
     }
-    .modes {
-        margin-bottom: 20px;
-    }
-    .modes button {
-        margin-right: 10px;
-        padding: 10px 20px;
-        border: none;
-        background: #00529B;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .modes button.active {
-        background: #003f7f;
-    }
-    #chat {
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        height: 300px;
+    #contacts, #modules {
+        background: #ffffff;
+        padding: 15px;
+        width: 200px;
         overflow-y: auto;
+    }
+    #contacts {
+        border-right: 1px solid #ccc;
+    }
+    #modules {
+        border-left: 1px solid #ccc;
+    }
+    #chatArea {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
         padding: 10px;
-        margin-bottom: 10px;
+    }
+    #chatHistory {
+        flex: 1;
         background: #fafafa;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        overflow-y: auto;
+        margin-bottom: 10px;
     }
     .message {
-        margin-bottom: 10px;
+        margin: 5px 0;
     }
-    .message.user {
-        text-align: right;
-    }
-    .message.ai {
-        text-align: left;
-        font-weight: bold;
-    }
+    .message.user { text-align: right; color: #00529B; font-weight: bold;}
+    .message.ai { text-align: left; color: #333; }
     #inputArea {
         display: flex;
     }
     #userInput {
         flex: 1;
         padding: 10px;
+        font-size: 16px;
         border-radius: 5px 0 0 5px;
         border: 1px solid #ccc;
-        font-size: 16px;
     }
     #sendBtn {
         padding: 10px 20px;
         border: none;
         background: #00529B;
         color: white;
-        border-radius: 0 5px 5px 0;
         cursor: pointer;
+        border-radius: 0 5px 5px 0;
     }
-    footer {
-        text-align: center;
-        margin-top: 20px;
-        font-size: 0.9em;
-        color: #666;
-    }
+    h2 { font-size: 1.1em; margin-top: 0;}
+    ul { padding-left: 15px; }
 </style>
 </head>
 <body>
 <header>
-    <h1>Bielik AI - Lokalne GUI</h1>
-    <p>Status: <span id="status">Offline</span></p>
+    <h1>Bielik AI Hub</h1>
+    <span>Status: <span id="status">Offline</span></span>
 </header>
 <main>
-    <div class="modes">
-        <button id="eduBtn" class="active">Edukacja</button>
-        <button id="docBtn">Dokumenty</button>
-        <button id="gameBtn">Gry</button>
+    <div id="contacts">
+        <h2>Kontakty</h2>
+        <ul>
+            <li>Dział IT</li>
+            <li>Compliance</li>
+            <li>Szkolenia</li>
+            <li>Zarząd</li>
+        </ul>
     </div>
-
-    <div id="chat"></div>
-
-    <div id="inputArea">
-        <input type="text" id="userInput" placeholder="Napisz coś...">
-        <button id="sendBtn">Wyślij</button>
+    <div id="chatArea">
+        <div id="chatHistory"></div>
+        <div id="inputArea">
+            <input type="text" id="userInput" placeholder="Napisz coś lub komendę /...">
+            <button id="sendBtn">Wyślij</button>
+        </div>
+    </div>
+    <div id="modules">
+        <h2>Moduły</h2>
+        <ul>
+            <li>AI Act / Compliance</li>
+            <li>Cyberbezpieczeństwo</li>
+            <li>Dostępność cyfrowa</li>
+            <li>Szkolenia</li>
+            <li>Audyt dokumentów</li>
+        </ul>
     </div>
 </main>
-<footer>
-    &copy; 2025 Bielik AI - Prototyp GUI
-</footer>
 
 <script>
-let mode = "Edukacja";
-
-const statusEl = document.getElementById('status');
-const chatEl = document.getElementById('chat');
-const userInput = document.getElementById('userInput');
-const sendBtn = document.getElementById('sendBtn');
-
-const eduBtn = document.getElementById('eduBtn');
-const docBtn = document.getElementById('docBtn');
-const gameBtn = document.getElementById('gameBtn');
-
-eduBtn.addEventListener('click', () => setMode('Edukacja', eduBtn));
-docBtn.addEventListener('click', () => setMode('Dokumenty', docBtn));
-gameBtn.addEventListener('click', () => setMode('Gry', gameBtn));
-
-function setMode(newMode, button) {
-    mode = newMode;
-    document.querySelectorAll('.modes button').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-    addMessage('system', `Tryb zmieniony na ${mode}`);
-}
+let statusEl = document.getElementById('status');
+let chatHistory = document.getElementById('chatHistory');
+let userInput = document.getElementById('userInput');
+let sendBtn = document.getElementById('sendBtn');
 
 function addMessage(sender, text) {
-    const msg = document.createElement('div');
-    msg.classList.add('message', sender);
+    let msg = document.createElement('div');
+    msg.className = 'message ' + sender;
     msg.textContent = text;
-    chatEl.appendChild(msg);
-    chatEl.scrollTop = chatEl.scrollHeight;
+    chatHistory.appendChild(msg);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
 function generateResponse(input) {
-    // Prosty lokalny mock AI
-    if(input.startsWith('/')) {
-        return `Rozpoznano komendę: ${input}`;
-    }
-    switch(mode) {
-        case 'Edukacja':
-            return `Bielik (Edukacja): Odpowiedź na "${input}"`;
-        case 'Dokumenty':
-            return `Bielik (Dokumenty): Analiza "${input}"`;
-        case 'Gry':
-            return `Bielik (Gry): Pomysł na zabawę dla "${input}"`;
-        default:
-            return `Bielik: "${input}"`;
-    }
+    input = input.toLowerCase();
+    // Prosty mock AI zgodności i bezpieczeństwa
+    if(input.includes('ai act')) return 'Bielik: System AI sklasyfikowany według ryzyka i wymagania dokumentacji gotowe.';
+    if(input.includes('rodo')) return 'Bielik: Przetwarzanie danych zgodnie z RODO, pseudonimizacja włączona.';
+    if(input.includes('nis2')) return 'Bielik: Monitoring incydentów aktywny, alerty gotowe do zgłoszenia.';
+    if(input.startsWith('/')) return `Bielik: Rozpoznano komendę "${input}"`;
+    return `Bielik: Odpowiedź dla "${input}" (tryb demo lokalny)`;
 }
 
-sendBtn.addEventListener('click', sendMessage);
-userInput.addEventListener('keypress', (e) => {
-    if(e.key === 'Enter') sendMessage();
-});
-
 function sendMessage() {
-    const text = userInput.value.trim();
+    let text = userInput.value.trim();
     if(!text) return;
     addMessage('user', text);
     userInput.value = '';
-    // Symulacja odpowiedzi AI z lekkim opóźnieniem
     setTimeout(() => {
-        const response = generateResponse(text);
-        addMessage('ai', response);
-    }, 500);
+        let resp = generateResponse(text);
+        addMessage('ai', resp);
+    }, 400);
 }
 
-// Symulacja statusu online po 1s
-setTimeout(() => { statusEl.textContent = 'Online'; }, 1000);
+sendBtn.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', (e) => { if(e.key==='Enter') sendMessage(); });
+
+// Symulacja statusu online
+setTimeout(()=>{ statusEl.textContent='Online'; }, 1000);
+
+// Wstępne wiadomości demo
+addMessage('ai', 'Witaj! Jestem Bielik AI Hub. Możesz pytać o AI Act, RODO, NIS2 lub inne moduły.');
 </script>
 </body>
 </html>
