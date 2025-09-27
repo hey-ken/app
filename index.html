@@ -3,82 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bielik AI Hub - Demo z IoT</title>
+<title>Bielik AI Hub - Interaktywny Prototyp</title>
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f7f7f7;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-    header {
-        background: #00529B;
-        color: white;
-        padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    header h1 { margin: 0; font-size: 1.5em; }
-    main { display: flex; flex: 1; overflow: hidden; }
-    #contacts, #modules {
-        background: #ffffff;
-        padding: 15px;
-        width: 220px;
-        overflow-y: auto;
-    }
-    #contacts { border-right: 1px solid #ccc; }
-    #modules { border-left: 1px solid #ccc; }
-    #chatArea {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        padding: 10px;
-    }
-    #chatHistory {
-        flex: 1;
-        background: #fafafa;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 10px;
-        overflow-y: auto;
-        margin-bottom: 10px;
-    }
-    .message { margin: 5px 0; }
-    .message.user { text-align: right; color: #00529B; font-weight: bold; }
-    .message.ai { text-align: left; color: #333; }
-    #inputArea { display: flex; }
-    #userInput {
-        flex: 1;
-        padding: 10px;
-        font-size: 16px;
-        border-radius: 5px 0 0 5px;
-        border: 1px solid #ccc;
-    }
-    #sendBtn {
-        padding: 10px 20px;
-        border: none;
-        background: #00529B;
-        color: white;
-        cursor: pointer;
-        border-radius: 0 5px 5px 0;
-    }
-    h2 { font-size: 1.1em; margin-top: 0; }
-    ul { padding-left: 15px; }
-    .iot-device { cursor: pointer; color: #00529B; margin: 3px 0; }
-    .iot-device:hover { text-decoration: underline; }
+/* Reset i podstawowy styl */
+body, html {
+    margin: 0; padding: 0; height: 100%; font-family: Arial, sans-serif; background: #f7f7f7;
+}
+header {
+    background: #00529B; color: #fff; padding: 15px; display: flex; justify-content: space-between; align-items: center;
+}
+header h1 { margin: 0; font-size: 1.4em; }
+main { display: flex; flex: 1; overflow: hidden; flex-direction: row; }
+
+/* Lewa kolumna - kontakty + IoT */
+#contacts {
+    background: #fff; padding: 15px; width: 220px; overflow-y: auto; border-right: 1px solid #ccc;
+}
+#contacts h2, #contacts h3 { margin-top: 10px; }
+ul { padding-left: 15px; list-style-type: none; }
+ul li { margin: 5px 0; }
+.iot-device { cursor: pointer; color: #00529B; }
+.iot-device:hover { text-decoration: underline; }
+
+/* Środek - chat */
+#chatArea { flex: 1; display: flex; flex-direction: column; padding: 10px; }
+#chatHistory { flex: 1; background: #fafafa; border: 1px solid #ccc; border-radius: 8px; padding: 10px; overflow-y: auto; margin-bottom: 10px; }
+.message { margin: 5px 0; }
+.message.user { text-align: right; color: #00529B; font-weight: bold; }
+.message.ai { text-align: left; color: #333; }
+#inputArea { display: flex; }
+#userInput { flex: 1; padding: 10px; font-size: 16px; border-radius: 5px 0 0 5px; border: 1px solid #ccc; }
+#sendBtn { padding: 10px 20px; border: none; background: #00529B; color: #fff; cursor: pointer; border-radius: 0 5px 5px 0; }
+
+/* Prawa kolumna - moduły */
+#modules { background: #fff; padding: 15px; width: 220px; overflow-y: auto; border-left: 1px solid #ccc; }
+#modules h2 { margin-top: 0; }
+.module { cursor: pointer; margin: 5px 0; color: #00529B; }
+.module:hover { text-decoration: underline; }
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+    main { flex-direction: column; }
+    #contacts, #modules { width: 100%; height: auto; border: none; }
+}
 </style>
 </head>
 <body>
+
 <header>
     <h1>Bielik AI Hub</h1>
     <span>Status: <span id="status">Offline</span></span>
 </header>
+
 <main>
+    <!-- Lewa kolumna -->
     <div id="contacts">
-        <h2>Kontakty & IoT</h2>
+        <h2>Kontakty</h2>
         <ul>
             <li>Dział IT</li>
             <li>Compliance</li>
@@ -94,6 +74,7 @@
         </ul>
     </div>
 
+    <!-- Środek - chat -->
     <div id="chatArea">
         <div id="chatHistory"></div>
         <div id="inputArea">
@@ -102,34 +83,24 @@
         </div>
     </div>
 
+    <!-- Prawa kolumna - moduły -->
     <div id="modules">
         <h2>Moduły</h2>
-        <ul>
-            <li>AI Act / Compliance</li>
-            <li>Cyberbezpieczeństwo</li>
-            <li>Dostępność cyfrowa</li>
-            <li>Szkolenia</li>
-            <li>Audyt dokumentów</li>
-        </ul>
+        <div class="module" data-module="AI Act / Compliance">AI Act / Compliance</div>
+        <div class="module" data-module="Cyberbezpieczeństwo">Cyberbezpieczeństwo</div>
+        <div class="module" data-module="Dostępność cyfrowa">Dostępność cyfrowa</div>
+        <div class="module" data-module="Szkolenia">Szkolenia</div>
+        <div class="module" data-module="Audyt dokumentów">Audyt dokumentów</div>
     </div>
 </main>
 
 <script>
-let statusEl = document.getElementById('status');
-let chatHistory = document.getElementById('chatHistory');
-let userInput = document.getElementById('userInput');
-let sendBtn = document.getElementById('sendBtn');
+const statusEl = document.getElementById('status');
+const chatHistory = document.getElementById('chatHistory');
+const userInput = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
 
-// Dodawanie wiadomości do czatu
-function addMessage(sender, text) {
-    let msg = document.createElement('div');
-    msg.className = 'message ' + sender;
-    msg.textContent = text;
-    chatHistory.appendChild(msg);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
-}
-
-// Mock AI odpowiedzi
+// Mock AI funkcja odpowiedzi
 function generateResponse(input) {
     input = input.toLowerCase();
     if(input.includes('ai act')) return 'Bielik: System AI sklasyfikowany wg ryzyka, dokumentacja gotowa.';
@@ -139,13 +110,22 @@ function generateResponse(input) {
     return `Bielik: Odpowiedź dla "${input}" (tryb demo lokalny)`;
 }
 
+// Dodawanie wiadomości do chatHistory
+function addMessage(sender, text) {
+    const msg = document.createElement('div');
+    msg.className = 'message ' + sender;
+    msg.textContent = text;
+    chatHistory.appendChild(msg);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+}
+
 // Wysyłanie wiadomości
 function sendMessage() {
-    let text = userInput.value.trim();
+    const text = userInput.value.trim();
     if(!text) return;
     addMessage('user', text);
     userInput.value = '';
-    setTimeout(() => { addMessage('ai', generateResponse(text)); }, 400);
+    setTimeout(() => addMessage('ai', generateResponse(text)), 400);
 }
 
 sendBtn.addEventListener('click', sendMessage);
@@ -154,16 +134,25 @@ userInput.addEventListener('keypress', e => { if(e.key==='Enter') sendMessage();
 // Symulacja statusu online
 setTimeout(()=>{ statusEl.textContent='Online'; }, 1000);
 
-// Obsługa kliknięcia urządzeń IoT
+// Wstępna wiadomość powitalna
+addMessage('ai', 'Witaj! Jestem Bielik AI Hub. Możesz pytać o AI Act, RODO, NIS2, kliknąć moduł lub urządzenie IoT.');
+
+// Obsługa kliknięcia IoT
 document.querySelectorAll('.iot-device').forEach(dev => {
     dev.addEventListener('click', () => {
         const device = dev.getAttribute('data-device');
-        addMessage('ai', `Bielik: Podgląd statusu urządzenia "${device}" (demo)`); 
+        addMessage('ai', `Bielik: Status urządzenia "${device}" - działanie demo, online, parametry w normie.`);
     });
 });
 
-// Wstępna wiadomość powitalna
-addMessage('ai', 'Witaj! Jestem Bielik AI Hub. Możesz pytać o AI Act, RODO, NIS2 lub kliknąć urządzenie IoT, aby zobaczyć status.');
+// Obsługa kliknięcia modułów
+document.querySelectorAll('.module').forEach(mod => {
+    mod.addEventListener('click', () => {
+        const moduleName = mod.getAttribute('data-module');
+        addMessage('ai', `Bielik: Moduł "${moduleName}" aktywowany. Możesz wykonywać audyty, szkolenia lub sprawdzić compliance (demo).`);
+    });
+});
 </script>
+
 </body>
 </html>
